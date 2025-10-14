@@ -25,14 +25,19 @@ private:
 	void StopJumping();
 	void Look(const FInputActionValue& Value);
 	void Move(const FInputActionValue& Value);
+
+	void Primary();
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input")
 	TArray<TObjectPtr<UInputMappingContext>> InputMappingContexts;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input")
+	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input|Movement")
 	TObjectPtr<UInputAction> JumpAction;
-	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input")
+	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input|Movement")
 	TObjectPtr<UInputAction> LookAction;
-	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input")
+	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input|Movement")
 	TObjectPtr<UInputAction> MoveAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input|Abilities")
+	TObjectPtr<UInputAction> PrimaryAction;
 };

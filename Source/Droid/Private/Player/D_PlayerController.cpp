@@ -26,6 +26,8 @@ void AD_PlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ThisClass::StopJumping);
 	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ThisClass::Look);
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ThisClass::Move);
+
+	EnhancedInputComponent->BindAction(PrimaryAction, ETriggerEvent::Started, this, &ThisClass::Primary);
 }
 
 void AD_PlayerController::Jump()
@@ -63,4 +65,9 @@ void AD_PlayerController::Move(const FInputActionValue& Value)
 
 	GetPawn()->AddMovementInput(ForwardDirection, MovementVector.Y);
 	GetPawn()->AddMovementInput(RightDirection, MovementVector.X);
+}
+
+void AD_PlayerController::Primary()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Yo waduhek?"));
 }
