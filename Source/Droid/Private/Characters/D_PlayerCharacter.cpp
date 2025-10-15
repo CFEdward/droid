@@ -42,9 +42,10 @@ void AD_PlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (!IsValid(GetAbilitySystemComponent())) return;
+	if (!IsValid(GetAbilitySystemComponent()) || !HasAuthority()) return;
 
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
+	GiveStartupAbilities();
 }
 
 void AD_PlayerCharacter::OnRep_PlayerState()
