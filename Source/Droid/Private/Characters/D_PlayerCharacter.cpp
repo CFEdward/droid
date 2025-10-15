@@ -1,10 +1,13 @@
 ﻿// Copyright Eduard Ciofu
 
 #include "Droid/Public/Characters/D_PlayerCharacter.h"
+
+#include "AbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Player/D_PlayerState.h"
 
 AD_PlayerCharacter::AD_PlayerCharacter()
 {
@@ -33,4 +36,30 @@ AD_PlayerCharacter::AD_PlayerCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>("FollowCamera");
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+}
+
+void AD_PlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!IsValid(GetAbilitySystemComponent())) return;
+
+	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
+}
+
+void AD_PlayerCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	if (!IsValid(GetAbilitySystemComponent())) return;
+
+	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
+}
+
+UAbilitySystemComponent* AD_PlayerCharacter::GetAbilitySystemComponent() const
+{
+	const AD_PlayerState* DPlayerState = Cast<AD_PlayerState>(GetPlayerState());
+	if (!IsValid(DPlayerState)) return nullptr;
+
+	return DPlayerState->GetAbilitySystemComponent();
 }
