@@ -31,6 +31,8 @@ void AD_PlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ThisClass::Move);
 
 	EnhancedInputComponent->BindAction(PrimaryAction, ETriggerEvent::Started, this, &ThisClass::Primary);
+	EnhancedInputComponent->BindAction(SecondaryAction, ETriggerEvent::Started, this, &ThisClass::Secondary);
+	EnhancedInputComponent->BindAction(TertiaryAction, ETriggerEvent::Started, this, &ThisClass::Tertiary);
 }
 
 void AD_PlayerController::Jump()
@@ -73,6 +75,16 @@ void AD_PlayerController::Move(const FInputActionValue& Value)
 void AD_PlayerController::Primary()
 {
 	ActivateAbility(DTags::DAbilities::Primary);
+}
+
+void AD_PlayerController::Secondary()
+{
+	ActivateAbility(DTags::DAbilities::Secondary);
+}
+
+void AD_PlayerController::Tertiary()
+{
+	ActivateAbility(DTags::DAbilities::Tertiary);
 }
 
 void AD_PlayerController::ActivateAbility(const FGameplayTag& AbilityTag) const

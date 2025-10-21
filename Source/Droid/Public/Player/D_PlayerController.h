@@ -28,6 +28,8 @@ private:
 	void Move(const FInputActionValue& Value);
 
 	void Primary();
+	void Secondary();
+	void Tertiary();
 	
 	void ActivateAbility(const FGameplayTag& AbilityTag) const;
 	
@@ -43,4 +45,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input|Abilities")
 	TObjectPtr<UInputAction> PrimaryAction;
+	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input|Abilities")
+	TObjectPtr<UInputAction> SecondaryAction;
+	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input|Abilities")
+	TObjectPtr<UInputAction> TertiaryAction;
 };
