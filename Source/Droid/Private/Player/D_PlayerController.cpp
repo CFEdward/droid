@@ -2,10 +2,13 @@
 
 #include "Player/D_PlayerController.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
 #include "GameFramework/Character.h"
+#include "GameplayTags/D_Tags.h"
 
 void AD_PlayerController::SetupInputComponent()
 {
@@ -69,5 +72,13 @@ void AD_PlayerController::Move(const FInputActionValue& Value)
 
 void AD_PlayerController::Primary()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Yo waduhek?"));
+	ActivateAbility(DTags::DAbilities::Primary);
+}
+
+void AD_PlayerController::ActivateAbility(const FGameplayTag& AbilityTag) const
+{
+	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn());
+	if (!IsValid(ASC)) return;
+
+	ASC->TryActivateAbilitiesByTag(AbilityTag.GetSingleTagContainer());
 }
