@@ -18,17 +18,17 @@ public:
 
 	AD_PlayerCharacter();
 
-	/** AD_BaseCharacter Override */
+	/** D_BaseCharacter Override */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	/** end AD_BaseCharacter Override */
+	/** end D_BaseCharacter Override */
 
-	/** ACharacter Override */
+	/** Character Override */
 	virtual void PossessedBy(AController* NewController) override;
-	/** end ACharacter Override */
+	/** end Character Override */
 
-	/** APawn Override */
+	/** Pawn Override */
 	virtual void OnRep_PlayerState() override;
-	/** end APawn Override */
+	/** end Pawn Override */
 	
 private:
 

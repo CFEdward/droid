@@ -17,8 +17,10 @@ public:
 
 protected:
 
+	/** Character Parent **/
 	virtual void BeginPlay() override;
-
+	//** end Character Parent **/
+	
 	/** AbilitySystem Interface */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	/** end AbilitySystem Interface */

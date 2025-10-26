@@ -18,8 +18,10 @@ class DROID_API AD_PlayerController : public APlayerController
 
 protected:
 
+	/** PlayerController Parent **/
 	virtual void SetupInputComponent() override;
-
+	/** end PlayerController Parent **/
+	
 private:
 
 	void Jump();
