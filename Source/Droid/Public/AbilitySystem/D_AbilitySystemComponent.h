@@ -10,18 +10,15 @@ UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class DROID_API UD_AbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
-	
-public:
 
-	UD_AbilitySystemComponent();
-
-	/** AbilitySystemComponent Parent **/
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	/** end AbilitySystemComponent Parent **/
-	
 protected:
-
-	/** AbilitySystemComponent Parent **/
-	virtual void BeginPlay() override;
-	/** end AbilitySystemComponent Parent **/
+	
+	/** UAbilitySystemComponent Parent */
+	virtual void OnGiveAbility(FGameplayAbilitySpec& AbilitySpec) override;
+	virtual void OnRep_ActivateAbilities() override;
+	/** end UAbilitySystemComponent Parent */
+	
+private:
+	
+	void HandleAutoActivatedAbility(const FGameplayAbilitySpec& AbilitySpec);
 };

@@ -2,16 +2,36 @@
 
 #include "AbilitySystem/D_AbilitySystemComponent.h"
 
-UD_AbilitySystemComponent::UD_AbilitySystemComponent()
+#include "GameplayTags/D_Tags.h"
+
+void UD_AbilitySystemComponent::OnGiveAbility(FGameplayAbilitySpec& AbilitySpec)
 {
+	Super::OnGiveAbility(AbilitySpec);
+	
+	if (!IsValid(AbilitySpec.Ability)) return;
+	
+	HandleAutoActivatedAbility(AbilitySpec);
 }
 
-void UD_AbilitySystemComponent::BeginPlay()
+void UD_AbilitySystemComponent::OnRep_ActivateAbilities()
 {
-	Super::BeginPlay();
+	Super::OnRep_ActivateAbilities();
+	
+	ABILITYLIST_SCOPE_LOCK();
+	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		HandleAutoActivatedAbility(AbilitySpec);
+	}
 }
 
-void UD_AbilitySystemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UD_AbilitySystemComponent::HandleAutoActivatedAbility(const FGameplayAbilitySpec& AbilitySpec)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	for (const FGameplayTag& Tag : AbilitySpec.Ability->GetAssetTags())
+	{
+		if (Tag.MatchesTagExact(DTags::DAbilities::ActivateOnGiven))
+		{
+			TryActivateAbility(AbilitySpec.Handle);
+			return;
+		}
+	}
 }
