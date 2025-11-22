@@ -8,3 +8,8 @@ namespace DTags::DAbilities
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Secondary, "DTags.DAbilities.Secondary", "Tag for the Secondary Ability");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Tertiary, "DTags.DAbilities.Tertiary", "Tag for the Tertiary Ability");
 }
+
+namespace DTags::Events::Enemy
+{
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "DTags.Events.Enemy.HitReact", "Tag for the Enemy HitReact Event");
+}
