@@ -13,7 +13,7 @@ class DROID_API UD_GA_Primary : public UD_GameplayAbility
 	
 public:
 	
-	UFUNCTION(BlueprintCallable, Category = "Droid|Abilities")
+	UFUNCTION(BlueprintPure, Category = "Droid|Abilities")
 	TArray<AActor*> HitBoxOverlapTest() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Droid|Abilities")
