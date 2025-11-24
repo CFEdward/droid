@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/D_GameplayAbility.h"
-#include "D_HitReact.generated.h"
+#include "D_GA_HitReact.generated.h"
 
 UCLASS()
-class DROID_API UD_HitReact : public UD_GameplayAbility
+class DROID_API UD_GA_HitReact : public UD_GameplayAbility
 {
 	GENERATED_BODY()
 };
