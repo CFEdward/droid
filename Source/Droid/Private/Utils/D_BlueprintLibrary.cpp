@@ -20,7 +20,7 @@ EHitDirection UD_BlueprintLibrary::GetHitDirection(const FVector& TargetForward,
 		}
 		return EHitDirection::Right;
 	}
-	return EHitDirection::Forward;
+	return EHitDirection::Front;
 }
 
 FName UD_BlueprintLibrary::GetHitDirectionName(const EHitDirection& HitDirection)
@@ -29,7 +29,7 @@ FName UD_BlueprintLibrary::GetHitDirectionName(const EHitDirection& HitDirection
 	{
 		case EHitDirection::Left: return FName("Left");
 		case EHitDirection::Right: return FName("Right");
-		case EHitDirection::Forward: return FName("Forward");
+		case EHitDirection::Front: return FName("Front");
 		case EHitDirection::Back: return FName("Back");
 		default: return FName("None");
 	}
