@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerState.h"
 #include "D_PlayerState.generated.h"
 
+class UAttributeSet;
 class UAbilitySystemComponent;
 
 UCLASS()
@@ -26,4 +27,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Droid|Abilities")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 };

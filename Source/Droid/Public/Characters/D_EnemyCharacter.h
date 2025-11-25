@@ -6,6 +6,8 @@
 #include "D_BaseCharacter.h"
 #include "D_EnemyCharacter.generated.h"
 
+class UAttributeSet;
+
 UCLASS()
 class DROID_API AD_EnemyCharacter : public AD_BaseCharacter
 {
@@ -29,4 +31,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 };
