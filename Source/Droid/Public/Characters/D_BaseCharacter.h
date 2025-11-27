@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "D_BaseCharacter.generated.h"
 
+class UGameplayEffect;
 class UGameplayAbility;
 
 UCLASS(Abstract)
@@ -25,9 +26,13 @@ public:
 protected:
 
 	void GiveStartupAbilities();
+	void InitializeAttributes() const;
 
 private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Droid|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Droid|Effects")
+	TSubclassOf<UGameplayEffect> InitializeAttributesEffect;
 };

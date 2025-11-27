@@ -22,6 +22,15 @@ void AD_BaseCharacter::GiveStartupAbilities()
 	}
 }
 
+void AD_BaseCharacter::InitializeAttributes() const
+{
+	ensureMsgf(IsValid(InitializeAttributesEffect), TEXT("InitializeAttributesEffect not set."));
+
+	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(InitializeAttributesEffect, 1.f, ContextHandle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+}
+
 UAbilitySystemComponent* AD_BaseCharacter::GetAbilitySystemComponent() const
 {
 	return nullptr;

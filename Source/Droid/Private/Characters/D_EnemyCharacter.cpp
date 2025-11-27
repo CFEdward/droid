@@ -27,6 +27,7 @@ void AD_EnemyCharacter::BeginPlay()
 	if (!HasAuthority()) return;
 
 	GiveStartupAbilities();
+	InitializeAttributes();
 }
 
 UAbilitySystemComponent* AD_EnemyCharacter::GetAbilitySystemComponent() const

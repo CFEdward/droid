@@ -46,6 +46,7 @@ void AD_PlayerCharacter::PossessedBy(AController* NewController)
 
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
 	GiveStartupAbilities();
+	InitializeAttributes();
 }
 
 void AD_PlayerCharacter::OnRep_PlayerState()
