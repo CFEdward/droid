@@ -14,7 +14,10 @@ void UD_WidgetComponent::BeginPlay()
 	if (!IsASCInitialized())
 	{
 		DroidCharacter->OnASCInitialized.AddDynamic(this, &ThisClass::OnASCInitialized);
+		return;
 	}
+	
+	InitAttributeDelegate();
 }
 
 void UD_WidgetComponent::InitAbilitySystemData()
@@ -29,11 +32,28 @@ void UD_WidgetComponent::OnASCInitialized(UAbilitySystemComponent* ASC, UAttribu
 	AbilitySystemComponent = Cast<UD_AbilitySystemComponent>(ASC);
 	AttributeSet = Cast<UD_AttributeSet>(AS);
 	
-	// TODO: Check if the AttributeSet has b een initialized with the first GE.
-	// if not, bind to some delegate that will be broadcast when it is initialized
+	if (!IsASCInitialized()) return;
+	InitAttributeDelegate();
+}
+
+void UD_WidgetComponent::BindToAttributeChanges()
+{
+	// TODO: Listen for changes to Gameplay Attributes and update our widgets accordingly
 }
 
 bool UD_WidgetComponent::IsASCInitialized() const
 {
 	return AbilitySystemComponent.IsValid() && AttributeSet.IsValid();
+}
+
+void UD_WidgetComponent::InitAttributeDelegate()
+{
+	if (!AttributeSet->bAttributesInitialized)
+	{
+		AttributeSet->OnAttributesInitialized.AddDynamic(this, &ThisClass::BindToAttributeChanges);
+	}
+	else
+	{
+		BindToAttributeChanges();
+	}
 }

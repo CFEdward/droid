@@ -25,9 +25,12 @@ private:
 	
 	void InitAbilitySystemData();
 	bool IsASCInitialized() const;
+	void InitAttributeDelegate();
 	
 	UFUNCTION()
 	void OnASCInitialized(UAbilitySystemComponent* ASC, UAttributeSet* AS);
+	UFUNCTION()
+	void BindToAttributeChanges();
 	
 	TWeakObjectPtr<AD_BaseCharacter> DroidCharacter;
 	TWeakObjectPtr<UD_AbilitySystemComponent> AbilitySystemComponent;

@@ -13,6 +13,8 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName);				\
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAttributesInitialized);
+
 UCLASS()
 class DROID_API UD_AttributeSet : public UAttributeSet
 {
@@ -20,9 +22,21 @@ class DROID_API UD_AttributeSet : public UAttributeSet
 	
 public:
 	
-	/** UObject Parent */
+	/** Object Parent */
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
-	/** end UObject Parent */
+	/** end Object Parent */
+	
+	/** AttributeSet Parent */
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	/** end AttributeSet Parent */
+	
+	UPROPERTY(BlueprintAssignable)
+	FAttributesInitialized OnAttributesInitialized;
+	
+	UPROPERTY(ReplicatedUsing = OnRep_AttributesInitialized)
+	bool bAttributesInitialized{ false };
+	UFUNCTION()
+	void OnRep_AttributesInitialized();
 	
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health)
 	FGameplayAttributeData Health;
