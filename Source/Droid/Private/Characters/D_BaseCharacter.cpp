@@ -2,6 +2,7 @@
 
 #include "Droid/Public/Characters/D_BaseCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/D_AttributeSet.h"
 
 AD_BaseCharacter::AD_BaseCharacter()
 {
@@ -29,9 +30,5 @@ void AD_BaseCharacter::InitializeAttributes() const
 	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
 	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(InitializeAttributesEffect, 1.f, ContextHandle);
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-}
-
-UAbilitySystemComponent* AD_BaseCharacter::GetAbilitySystemComponent() const
-{
-	return nullptr;
+	Cast<UD_AttributeSet>(GetAttributeSet())->PostAttributesInitialized();
 }

@@ -19,10 +19,8 @@ void UD_AttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>
 	DOREPLIFETIME(ThisClass, bAttributesInitialized);
 }
 
-void UD_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+void UD_AttributeSet::PostAttributesInitialized()
 {
-	Super::PostGameplayEffectExecute(Data);
-	
 	if (!bAttributesInitialized)
 	{
 		bAttributesInitialized = true;

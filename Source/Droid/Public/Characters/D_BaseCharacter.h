@@ -23,7 +23,7 @@ public:
 	AD_BaseCharacter();
 
 	/** AbilitySystem Interface */
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return nullptr; }
 	/** end AbilitySystem Interface */
 	
 	UPROPERTY(BlueprintAssignable)

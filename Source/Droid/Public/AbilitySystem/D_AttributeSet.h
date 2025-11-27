@@ -26,9 +26,7 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	/** end Object Parent */
 	
-	/** AttributeSet Parent */
-	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-	/** end AttributeSet Parent */
+	void PostAttributesInitialized();
 	
 	UPROPERTY(BlueprintAssignable)
 	FAttributesInitialized OnAttributesInitialized;
