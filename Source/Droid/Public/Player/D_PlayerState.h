@@ -23,6 +23,8 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	/** end AbilitySystem Interface */
 	
+	FORCEINLINE UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+	
 private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Droid|Abilities")

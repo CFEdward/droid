@@ -23,6 +23,7 @@ void AD_EnemyCharacter::BeginPlay()
 	if (!IsValid(GetAbilitySystemComponent())) return;
 
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 	
 	if (!HasAuthority()) return;
 

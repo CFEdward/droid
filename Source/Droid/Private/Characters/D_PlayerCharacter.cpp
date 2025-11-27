@@ -45,6 +45,7 @@ void AD_PlayerCharacter::PossessedBy(AController* NewController)
 	if (!IsValid(GetAbilitySystemComponent()) || !HasAuthority()) return;
 
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
+	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 	GiveStartupAbilities();
 	InitializeAttributes();
 }
@@ -56,6 +57,7 @@ void AD_PlayerCharacter::OnRep_PlayerState()
 	if (!IsValid(GetAbilitySystemComponent())) return;
 
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
+	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 }
 
 UAbilitySystemComponent* AD_PlayerCharacter::GetAbilitySystemComponent() const
@@ -64,4 +66,12 @@ UAbilitySystemComponent* AD_PlayerCharacter::GetAbilitySystemComponent() const
 	if (!IsValid(DPlayerState)) return nullptr;
 
 	return DPlayerState->GetAbilitySystemComponent();
+}
+
+UAttributeSet* AD_PlayerCharacter::GetAttributeSet() const
+{
+	const AD_PlayerState* DPlayerState = Cast<AD_PlayerState>(GetPlayerState());
+	if (!IsValid(DPlayerState)) return nullptr;
+	
+	return DPlayerState->GetAttributeSet();
 }

@@ -7,8 +7,11 @@
 #include "GameFramework/Character.h"
 #include "D_BaseCharacter.generated.h"
 
+class UAttributeSet;
 class UGameplayEffect;
 class UGameplayAbility;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FASCInitialized, UAbilitySystemComponent*, ASC, UAttributeSet*, AS);
 
 UCLASS(Abstract)
 class DROID_API AD_BaseCharacter : public ACharacter, public IAbilitySystemInterface
@@ -22,6 +25,11 @@ public:
 	/** AbilitySystem Interface */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	/** end AbilitySystem Interface */
+	
+	UPROPERTY(BlueprintAssignable)
+	FASCInitialized OnASCInitialized;
+	
+	FORCEINLINE virtual UAttributeSet* GetAttributeSet() const { return nullptr;}
 
 protected:
 

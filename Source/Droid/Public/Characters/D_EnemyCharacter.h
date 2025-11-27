@@ -19,9 +19,12 @@ public:
 
 protected:
 
-	/** Character Parent **/
+	/** Character Parent */
 	virtual void BeginPlay() override;
-	//** end Character Parent **/
+	/** end Character Parent */
+	/** D_BaseCharacter Parent */
+	FORCEINLINE virtual UAttributeSet* GetAttributeSet() const override { return AttributeSet; }
+	/** end D_BaseCharacter Parent */
 	
 	/** AbilitySystem Interface */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;

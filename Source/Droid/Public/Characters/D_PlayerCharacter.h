@@ -20,6 +20,7 @@ public:
 
 	/** D_BaseCharacter Override */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UAttributeSet* GetAttributeSet() const override;
 	/** end D_BaseCharacter Override */
 
 	/** Character Override */

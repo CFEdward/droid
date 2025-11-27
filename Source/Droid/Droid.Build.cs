@@ -17,7 +17,8 @@ public class Droid : ModuleRules
 			"EnhancedInput",
 			"GameplayAbilities",
 			"GameplayTasks",
-			"GameplayTags"
+			"GameplayTags",
+			"UMG"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
