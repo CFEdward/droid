@@ -18,6 +18,11 @@ protected:
 	virtual void OnRep_ActivateAbilities() override;
 	/** end UAbilitySystemComponent Parent */
 	
+	UFUNCTION(BlueprintCallable, Category = "Droid|Abilities")
+	void SetAbilityLevel(TSubclassOf<UGameplayAbility> AbilityClass, int32 Level);
+	UFUNCTION(BlueprintCallable, Category = "Droid|Abilities")
+	void AddToAbilityLevel(TSubclassOf<UGameplayAbility> AbilityClass, int32 Level = 1);
+	
 private:
 	
 	void HandleAutoActivatedAbility(const FGameplayAbilitySpec& AbilitySpec);
