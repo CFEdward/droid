@@ -29,6 +29,8 @@ void AD_EnemyCharacter::BeginPlay()
 
 	GiveStartupAbilities();
 	InitializeAttributes();
+	
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(UD_AttributeSet::GetHealthAttribute()).AddUObject(this, &ThisClass::OnHealthChanged);
 }
 
 UAbilitySystemComponent* AD_EnemyCharacter::GetAbilitySystemComponent() const

@@ -1,8 +1,8 @@
 ﻿// Copyright Eduard Ciofu
 
 #include "Droid/Public/Characters/D_PlayerCharacter.h"
-
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/D_AttributeSet.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -48,6 +48,8 @@ void AD_PlayerCharacter::PossessedBy(AController* NewController)
 	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 	GiveStartupAbilities();
 	InitializeAttributes();
+	
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(UD_AttributeSet::GetHealthAttribute()).AddUObject(this, &ThisClass::OnHealthChanged);
 }
 
 void AD_PlayerCharacter::OnRep_PlayerState()
@@ -58,6 +60,8 @@ void AD_PlayerCharacter::OnRep_PlayerState()
 
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
 	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
+	
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(UD_AttributeSet::GetHealthAttribute()).AddUObject(this, &ThisClass::OnHealthChanged);
 }
 
 UAbilitySystemComponent* AD_PlayerCharacter::GetAbilitySystemComponent() const
