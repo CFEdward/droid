@@ -59,7 +59,16 @@ void AD_BaseCharacter::HandleDeath()
 	}
 }
 
-void AD_BaseCharacter::HandleRespawn()
+void AD_BaseCharacter::BP_HandleRespawn()
 {
 	bAlive = true;
+}
+
+void AD_BaseCharacter::BP_ResetAttributes() const
+{
+	checkf(IsValid(ResetAttributesEffect), TEXT("ResetAttributesEffect not set."));
+	
+	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(ResetAttributesEffect, 1.f, ContextHandle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 }
