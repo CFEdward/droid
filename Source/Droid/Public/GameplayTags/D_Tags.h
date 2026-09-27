@@ -11,6 +11,11 @@ namespace DTags::DAbilities
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tertiary);
 }
 
+namespace DTags::Events
+{
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(KillScored);
+}
+
 namespace DTags::Events::Enemy
 {
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(HitReact);

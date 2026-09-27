@@ -17,8 +17,11 @@ class DROID_API UD_AttributeSet : public UAttributeSet
 public:
 	
 	/** Object Parent */
-	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	/** end Object Parent */
+	/** AttributeSet Parent */
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	/** end AttributeSet Parent */
 	
 	void PostAttributesInitialized();
 	
