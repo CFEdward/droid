@@ -1,5 +1,6 @@
 ﻿// Copyright Eduard Ciofu
 
+
 #include "Droid/Public/Characters/D_BaseCharacter.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/D_AttributeSet.h"

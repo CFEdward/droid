@@ -39,7 +39,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Droid|Attributes", meta = (DisplayName = "Reset Attributes"))
 	void BP_ResetAttributes() const;
 	
-	FORCEINLINE virtual UAttributeSet* GetAttributeSet() const { return nullptr;}
+	virtual UAttributeSet* GetAttributeSet() const { return nullptr; }
 	FORCEINLINE bool IsAlive() const { return bAlive; }
 	FORCEINLINE void SetAlive(const bool bAliveStatus) { bAlive = bAliveStatus; }
 
