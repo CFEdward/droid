@@ -7,6 +7,11 @@
 #include "GameFramework/Character.h"
 #include "D_BaseCharacter.generated.h"
 
+namespace DroidTags
+{
+	extern DROID_API const FName Player;
+}
+
 struct FOnAttributeChangeData;
 class UAttributeSet;
 class UGameplayEffect;

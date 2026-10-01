@@ -6,6 +6,11 @@
 #include "AbilitySystem/D_AttributeSet.h"
 #include "Net/UnrealNetwork.h"
 
+namespace DroidTags
+{
+	const FName Player = FName("Player");
+}
+
 AD_BaseCharacter::AD_BaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;

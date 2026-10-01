@@ -37,6 +37,8 @@ AD_PlayerCharacter::AD_PlayerCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>("FollowCamera");
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+	
+	Tags.Add(DroidTags::Player);
 }
 
 void AD_PlayerCharacter::PossessedBy(AController* NewController)
