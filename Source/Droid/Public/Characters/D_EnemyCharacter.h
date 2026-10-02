@@ -34,6 +34,10 @@ public:
 	float MinAttackDelay{ .1f };
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Droid|AI")
 	float MaxAttackDelay{ .5f };
+	
+protected:
+	
+	virtual void HandleDeath() override;
 
 private:
 
