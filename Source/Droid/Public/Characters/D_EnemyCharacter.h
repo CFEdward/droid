@@ -37,8 +37,10 @@ public:
 	
 protected:
 	
+	/** D_BaseCharacter Parent */
 	virtual void HandleDeath() override;
-
+	/** end D_BaseCharacter Parent */
+	
 private:
 
 	UPROPERTY(VisibleAnywhere)
