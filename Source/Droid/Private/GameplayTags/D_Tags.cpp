@@ -18,3 +18,8 @@ namespace DTags::Events::Enemy
 {
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "DTags.Events.Enemy.HitReact", "Tag for the Enemy HitReact Event");
 }
+
+namespace DTags::SetByCaller
+{
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Projectile, "DTags.SetByCaller.Projectile", "Tag for Set By Caller magnitude for projectiles");
+}

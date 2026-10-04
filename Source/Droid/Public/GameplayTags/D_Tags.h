@@ -20,3 +20,8 @@ namespace DTags::Events::Enemy
 {
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(HitReact);
 }
+
+namespace DTags::SetByCaller
+{
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Projectile);
+}

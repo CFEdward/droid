@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "Characters/D_PlayerCharacter.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "GameplayTags/D_Tags.h"
 
 
 AD_Projectile::AD_Projectile()
@@ -29,7 +30,7 @@ void AD_Projectile::NotifyActorBeginOverlap(AActor* OtherActor)
 	const FGameplayEffectContextHandle ContextHandle = PlayerASC->MakeEffectContext();
 	const FGameplayEffectSpecHandle SpecHandle = PlayerASC->MakeOutgoingSpec(DamageEffect, 1.f, ContextHandle);
 	
-	// TODO: Use the Damage variable for the amount of damage to cause
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DTags::SetByCaller::Projectile, -Damage);
 	
 	PlayerASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 	
