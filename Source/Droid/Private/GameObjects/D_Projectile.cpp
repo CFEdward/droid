@@ -6,6 +6,7 @@
 #include "Characters/D_PlayerCharacter.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "GameplayTags/D_Tags.h"
+#include "Utils/D_BlueprintLibrary.h"
 
 
 AD_Projectile::AD_Projectile()
@@ -22,17 +23,15 @@ void AD_Projectile::NotifyActorBeginOverlap(AActor* OtherActor)
 	Super::NotifyActorBeginOverlap(OtherActor);
 	SpawnImpactEffects();
 
-	const AD_PlayerCharacter* PlayerCharacter = Cast<AD_PlayerCharacter>(OtherActor);
+	AD_PlayerCharacter* PlayerCharacter = Cast<AD_PlayerCharacter>(OtherActor);
 	if (!IsValid(PlayerCharacter) || !PlayerCharacter->IsAlive()) return;
-	UAbilitySystemComponent* PlayerASC = PlayerCharacter->GetAbilitySystemComponent();
+	const UAbilitySystemComponent* PlayerASC = PlayerCharacter->GetAbilitySystemComponent();
 	if (!IsValid(PlayerASC) || !HasAuthority()) return;
-
-	const FGameplayEffectContextHandle ContextHandle = PlayerASC->MakeEffectContext();
-	const FGameplayEffectSpecHandle SpecHandle = PlayerASC->MakeOutgoingSpec(DamageEffect, 1.f, ContextHandle);
 	
-	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DTags::SetByCaller::Projectile, -Damage);
-	
-	PlayerASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+	FGameplayEventData Payload;
+	Payload.Instigator = GetOwner();
+	Payload.Target = PlayerCharacter;
+	UD_BlueprintLibrary::SendDamageEventToPlayer(PlayerCharacter, DamageEffect, Payload, DTags::SetByCaller::Projectile, Damage);
 	
 	Destroy();
 }

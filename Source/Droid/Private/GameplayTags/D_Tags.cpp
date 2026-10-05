@@ -14,6 +14,12 @@ namespace DTags::Events
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(KillScored, "DTags.Events.KillScored", "Tag for the Kill Scored Event");
 }
 
+namespace DTags::Events::Player
+{
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "DTags.Events.Player.HitReact", "Tag for the Player HitReact Event");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Death, "DTags.Events.Player.Death", "Tag for the Player Death Event");
+}
+
 namespace DTags::Events::Enemy
 {
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "DTags.Events.Enemy.HitReact", "Tag for the Enemy HitReact Event");

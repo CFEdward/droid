@@ -16,6 +16,12 @@ namespace DTags::Events
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(KillScored);
 }
 
+namespace DTags::Events::Player
+{
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(HitReact);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Death);
+}
+
 namespace DTags::Events::Enemy
 {
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(HitReact);

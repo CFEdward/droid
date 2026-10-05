@@ -3,7 +3,9 @@
 
 #include "Utils/D_BlueprintLibrary.h"
 
+#include "AbilitySystem/D_AttributeSet.h"
 #include "Characters/D_BaseCharacter.h"
+#include "GameplayTags/D_Tags.h"
 #include "Kismet/GameplayStatics.h"
 
 EHitDirection UD_BlueprintLibrary::GetHitDirection(const FVector& TargetForward, const FVector& ToInstigator)
@@ -49,7 +51,7 @@ FClosestActorWithTagResult UD_BlueprintLibrary::FindClosestActorWithTag(const UO
 	for (AActor* Actor : ActorsWithTag)
 	{
 		if (!IsValid(Actor)) continue;
-		AD_BaseCharacter* BaseCharacter = Cast<AD_BaseCharacter>(Actor);
+		const AD_BaseCharacter* BaseCharacter = Cast<AD_BaseCharacter>(Actor);
 		if (!IsValid(BaseCharacter) || !BaseCharacter->IsAlive()) continue;
 		
 		const float Distance = FVector::Dist(Origin, Actor->GetActorLocation());
@@ -64,4 +66,26 @@ FClosestActorWithTagResult UD_BlueprintLibrary::FindClosestActorWithTag(const UO
 	Result.Actor = ClosestActor;
 	Result.Distance = ClosestDistance;
 	return Result;
+}
+
+void UD_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target, const TSubclassOf<UGameplayEffect>& DamageEffect, const FGameplayEventData& Payload, const FGameplayTag& DataTag, const float Damage)
+{
+	AD_BaseCharacter* PlayerCharacter = Cast<AD_BaseCharacter>(Target);
+	if (!IsValid(PlayerCharacter) || !PlayerCharacter->IsAlive()) return;
+	
+	UD_AttributeSet* AttributeSet = Cast<UD_AttributeSet>(PlayerCharacter->GetAttributeSet());
+	if (!IsValid(AttributeSet)) return;
+	
+	const bool bLethal = AttributeSet->GetHealth() - Damage <= 0.f;
+	const FGameplayTag EventTag = bLethal ? DTags::Events::Player::Death : DTags::Events::Player::HitReact;
+	
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(PlayerCharacter, EventTag, Payload);
+	
+	UAbilitySystemComponent* TargetASC = PlayerCharacter->GetAbilitySystemComponent();
+	const FGameplayEffectContextHandle ContextHandle = TargetASC->MakeEffectContext();
+	const FGameplayEffectSpecHandle SpecHandle = TargetASC->MakeOutgoingSpec(DamageEffect, 1.f, ContextHandle);
+	
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DataTag, -Damage);
+	
+	TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 }
