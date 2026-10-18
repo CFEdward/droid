@@ -33,6 +33,8 @@ private:
 	void Secondary();
 	void Tertiary();
 	
+	bool IsAlive() const;
+	
 	void ActivateAbility(const FGameplayTag& AbilityTag) const;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Droid|Input")

@@ -7,6 +7,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
+#include "Characters/D_BaseCharacter.h"
 #include "GameFramework/Character.h"
 #include "GameplayTags/D_Tags.h"
 
@@ -38,6 +39,7 @@ void AD_PlayerController::SetupInputComponent()
 void AD_PlayerController::Jump()
 {
 	if (!IsValid(GetCharacter())) return;
+	if (!IsAlive()) return;
 
 	GetCharacter()->Jump();
 }
@@ -45,6 +47,7 @@ void AD_PlayerController::Jump()
 void AD_PlayerController::StopJumping()
 {
 	if (!IsValid(GetCharacter())) return;
+	if (!IsAlive()) return;
 
 	GetCharacter()->StopJumping();
 }
@@ -60,6 +63,7 @@ void AD_PlayerController::Look(const FInputActionValue& Value)
 void AD_PlayerController::Move(const FInputActionValue& Value)
 {
 	if (!IsValid(GetPawn())) return;
+	if (!IsAlive()) return;
 
 	const FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -87,8 +91,17 @@ void AD_PlayerController::Tertiary()
 	ActivateAbility(DTags::DAbilities::Tertiary);
 }
 
+bool AD_PlayerController::IsAlive() const
+{
+	AD_BaseCharacter* BaseCharacter = Cast<AD_BaseCharacter>(GetPawn());
+	if (!IsValid(BaseCharacter)) return false;
+	return BaseCharacter->IsAlive();
+}
+
 void AD_PlayerController::ActivateAbility(const FGameplayTag& AbilityTag) const
 {
+	if (!IsAlive()) return;
+	
 	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn());
 	if (!IsValid(ASC)) return;
 

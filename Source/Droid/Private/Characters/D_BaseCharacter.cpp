@@ -73,6 +73,7 @@ void AD_BaseCharacter::BP_HandleRespawn()
 void AD_BaseCharacter::BP_ResetAttributes() const
 {
 	checkf(IsValid(ResetAttributesEffect), TEXT("ResetAttributesEffect not set."));
+	if (!IsValid(GetAbilitySystemComponent())) return;
 	
 	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
 	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(ResetAttributesEffect, 1.f, ContextHandle);
