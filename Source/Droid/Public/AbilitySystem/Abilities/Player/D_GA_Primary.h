@@ -13,20 +13,15 @@ class DROID_API UD_GA_Primary : public UD_GameplayAbility
 	
 public:
 	
-	UFUNCTION(BlueprintPure, Category = "Droid|Abilities")
-	TArray<AActor*> HitBoxOverlapTest() const;
-	
 	UFUNCTION(BlueprintCallable, Category = "Droid|Abilities")
 	void SendHitReactEventToActors(const TArray<AActor*>& ActorsHit);
 	
 private:
 	
-	void DrawHitBoxOverlapDebugs(const TArray<FOverlapResult>& OverlapResults, const FVector& HitBoxLocation) const;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Droid|Abilities")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Droid|Abilities", meta = (AllowPrivateAccess = "true"))
 	float HitBoxRadius{ 100.f };
-	UPROPERTY(EditDefaultsOnly, Category = "Droid|Abilities")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Droid|Abilities", meta = (AllowPrivateAccess = "true"))
 	float HitBoxForwardOffset{ 200.f };
-	UPROPERTY(EditDefaultsOnly, Category = "Droid|Abilities")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Droid|Abilities", meta = (AllowPrivateAccess = "true"))
 	float HitBoxElevationOffset{ 20.f };
 };
