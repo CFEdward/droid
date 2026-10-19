@@ -4,6 +4,7 @@
 #include "Utils/D_BlueprintLibrary.h"
 #include "AbilitySystem/D_AttributeSet.h"
 #include "Characters/D_BaseCharacter.h"
+#include "Characters/D_EnemyCharacter.h"
 #include "Engine/OverlapResult.h"
 #include "GameplayTags/D_Tags.h"
 #include "Kismet/GameplayStatics.h"
@@ -98,10 +99,10 @@ FName UD_BlueprintLibrary::GetHitDirectionName(const EHitDirection& HitDirection
 	}
 }
 
-FClosestActorWithTagResult UD_BlueprintLibrary::FindClosestActorWithTag(const UObject* WorldContextObject, const FVector& Origin, const FName& Tag)
+FClosestActorWithTagResult UD_BlueprintLibrary::FindClosestActorWithTag(AActor* Avatar, const FVector& Origin, const FName& Tag, float SearchRange)
 {
 	TArray<AActor*> ActorsWithTag;
-	UGameplayStatics::GetAllActorsWithTag(WorldContextObject, Tag, ActorsWithTag);
+	UGameplayStatics::GetAllActorsWithTag(Avatar, Tag, ActorsWithTag);
 	
 	float ClosestDistance = TNumericLimits<float>::Max();
 	AActor* ClosestActor = nullptr;
@@ -113,6 +114,7 @@ FClosestActorWithTagResult UD_BlueprintLibrary::FindClosestActorWithTag(const UO
 		if (!IsValid(BaseCharacter) || !BaseCharacter->IsAlive()) continue;
 		
 		const float Distance = FVector::Dist(Origin, Actor->GetActorLocation());
+		if (Distance > SearchRange) continue;
 		if (Distance < ClosestDistance)
 		{
 			ClosestDistance = Distance;
@@ -126,16 +128,24 @@ FClosestActorWithTagResult UD_BlueprintLibrary::FindClosestActorWithTag(const UO
 	return Result;
 }
 
-void UD_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target, const TSubclassOf<UGameplayEffect>& DamageEffect, FGameplayEventData& Payload, const FGameplayTag& DataTag, const float Damage, UObject* OptionalParticleSystem)
+void UD_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target, const TSubclassOf<UGameplayEffect>& DamageEffect, FGameplayEventData& Payload, const FGameplayTag& DataTag, const float Damage, const FGameplayTag& EventTagOverride, UObject* OptionalParticleSystem)
 {
 	AD_BaseCharacter* PlayerCharacter = Cast<AD_BaseCharacter>(Target);
 	if (!IsValid(PlayerCharacter) || !PlayerCharacter->IsAlive()) return;
+
+	FGameplayTag EventTag;
+	if (!EventTagOverride.MatchesTagExact(DTags::None))
+	{
+		EventTag = EventTagOverride;
+	}
+	else
+	{
+		const UD_AttributeSet* AttributeSet = Cast<UD_AttributeSet>(PlayerCharacter->GetAttributeSet());
+		if (!IsValid(AttributeSet)) return;
 	
-	UD_AttributeSet* AttributeSet = Cast<UD_AttributeSet>(PlayerCharacter->GetAttributeSet());
-	if (!IsValid(AttributeSet)) return;
-	
-	const bool bLethal = AttributeSet->GetHealth() - Damage <= 0.f;
-	const FGameplayTag EventTag = bLethal ? DTags::Events::Player::Death : DTags::Events::Player::HitReact;
+		const bool bLethal = AttributeSet->GetHealth() - Damage <= 0.f;
+		EventTag = bLethal ? DTags::Events::Player::Death : DTags::Events::Player::HitReact;
+	}
 	
 	Payload.OptionalObject = OptionalParticleSystem;
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(PlayerCharacter, EventTag, Payload);
@@ -147,6 +157,14 @@ void UD_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target, const TSubclas
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DataTag, -Damage);
 	
 	TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+}
+
+void UD_BlueprintLibrary::SendDamageEventToPlayers(TArray<AActor*> Targets, const TSubclassOf<UGameplayEffect>& DamageEffect, FGameplayEventData& Payload, const FGameplayTag& DataTag, float Damage, const FGameplayTag& EventTagOverride, UObject* OptionalParticleSystem)
+{
+	for (AActor* Actor : Targets)
+	{
+		SendDamageEventToPlayer(Actor, DamageEffect, Payload, DataTag, Damage, EventTagOverride, OptionalParticleSystem);
+	}
 }
 
 TArray<AActor*> UD_BlueprintLibrary::ApplyKnockback(AActor* AvatarActor, const TArray<AActor*>& HitActors, const float InnerRadius, const float OuterRadius, const float LaunchForceMagnitude, const float RotationAngle, const bool bDrawDebugs)
@@ -188,6 +206,10 @@ TArray<AActor*> UD_BlueprintLibrary::ApplyKnockback(AActor* AvatarActor, const T
 			DrawDebugDirectionalArrow(World, HitCharacterLocation, HitCharacterLocation + KnockbackForce, 100.f, FColor::Green, false, 2.f);
 		}
 		
+		if (AD_EnemyCharacter* EnemyCharacter = Cast<AD_EnemyCharacter>(HitCharacter); IsValid(EnemyCharacter))
+		{
+			EnemyCharacter->StopMovementUntilLanded();
+		}
 		HitCharacter->LaunchCharacter(KnockbackForce, true, true);
 	}
 	

@@ -5,6 +5,7 @@
 #include "AbilitySystem/D_AbilitySystemComponent.h"
 #include "AbilitySystem/D_AttributeSet.h"
 #include "Runtime/AIModule/Classes/AIController.h"
+#include "GameplayTags/D_Tags.h"
 
 AD_EnemyCharacter::AD_EnemyCharacter()
 {
@@ -39,6 +40,16 @@ UAbilitySystemComponent* AD_EnemyCharacter::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
+void AD_EnemyCharacter::StopMovementUntilLanded()
+{
+	bIsBeingLaunched = true;
+	AAIController* AIController = GetController<AAIController>();
+	if (!IsValid(AIController)) return;
+	AIController->StopMovement();
+	
+	LandedDelegate.AddUniqueDynamic(this, &ThisClass::EnableMovementOnLanded);
+}
+
 void AD_EnemyCharacter::HandleDeath()
 {
 	Super::HandleDeath();
@@ -46,4 +57,12 @@ void AD_EnemyCharacter::HandleDeath()
 	AAIController* AIController = GetController<AAIController>();
 	if (!IsValid(AIController)) return;
 	AIController->StopMovement();
+}
+
+void AD_EnemyCharacter::EnableMovementOnLanded(const FHitResult& HitResult)
+{
+	bIsBeingLaunched = false;
+	LandedDelegate.RemoveAll(this);
+	
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(this, DTags::Events::Enemy::EndAttack, FGameplayEventData());
 }

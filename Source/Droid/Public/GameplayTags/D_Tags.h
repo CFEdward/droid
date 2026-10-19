@@ -3,6 +3,11 @@
 #include "CoreMinimal.h"
 #include "NativeGameplayTags.h"
 
+namespace DTags
+{
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(None);
+}
+
 namespace DTags::DAbilities
 {
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ActivateOnGiven);
@@ -25,6 +30,7 @@ namespace DTags::Events::Player
 namespace DTags::Events::Enemy
 {
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(HitReact);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EndAttack);
 }
 
 namespace DTags::SetByCaller

@@ -28,12 +28,20 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	/** end AbilitySystem Interface */
 	
+	void StopMovementUntilLanded();
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Droid|AI")
 	float AcceptanceRadius{ 500.f };
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Droid|AI")
 	float MinAttackDelay{ .1f };
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Droid|AI")
 	float MaxAttackDelay{ .5f };
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Droid|AI")
+	bool bIsBeingLaunched{ false };
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Droid|AI")
+	float SearchRange{ 1000.f };
 	
 protected:
 	
@@ -42,6 +50,9 @@ protected:
 	/** end D_BaseCharacter Parent */
 	
 private:
+	
+	UFUNCTION()
+	void EnableMovementOnLanded(const FHitResult& HitResult);
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;

@@ -1,5 +1,10 @@
 ﻿#include "GameplayTags/D_Tags.h"
 
+namespace DTags
+{
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(None, "DTags.None", "Default None Tag.");
+}
+
 namespace DTags::DAbilities
 {
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(ActivateOnGiven, "DTags.DAbilities.ActivateOnGiven", "Tag for Abilities that should activate immediately once given");
@@ -23,6 +28,7 @@ namespace DTags::Events::Player
 namespace DTags::Events::Enemy
 {
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "DTags.Events.Enemy.HitReact", "Tag for the Enemy HitReact Event");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(EndAttack, "DTags.Events.Enemy.EndAttack", "Tag for the Enemy End Attack Event");
 }
 
 namespace DTags::SetByCaller
